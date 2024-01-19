@@ -186,60 +186,76 @@ starwars <- read.csv("starwars.csv")
 # we can then perform various data manipulations with it using R
 
 # Select and Filter
-df1 %>%
-  select(Fruit, Color) %>%
-  filter(Color == "Yellow")
+
+# there are different ways to achieve your selection
+# name everything
+starwars_subset <- starwars %>%
+  select(name, height, mass, hair_color, skin_color, eye_color, gender, species) %>%
+  filter(gender == "masculine")
+# name with ranges
+starwars_subset <- starwars %>%
+  select(name:eye_color, gender, species) %>%
+  filter(gender == "masculine")
+# use logic negation
+starwars <- starwars %>%
+  select(!c(birth_year,sex,homeworld)) %>%
+  filter(gender == "masculine")
+
+# don't need starwars_subset anymore so can remove from environment
+rm(starwars_subset)
+
 
 # Group by
 # Example
-df1 %>%
-  group_by(Fruit)
+starwars %>%
+  group_by(species)
 
-#Grouping doesn't change how the data looks (apart from listing how it's grouped). The grouping is shown when a command like 'tally' is run"
+# Grouping doesn't change how the data looks (apart from listing how it's grouped). 
+# The grouping is shown when a command like 'tally' is run"
 
 
 # group_by and tally
-df1 %>%
-  filter(Color == "Yellow") %>%
-  group_by(Fruit) %>%
+starwars_tally <- starwars %>%
+  group_by(species) %>%
   tally(sort = TRUE) %>%
-  select(Fruit, n)
+  select(species, n)
 
 # Add percentage column
-df1 %>%
-  group_by(Fruit) %>%
+starwars_tally <- starwars %>%
+  group_by(species) %>%
   tally(sort = TRUE) %>%
-  mutate('%_Distribution' =  100 *n/sum(n)) 
+  mutate('Species %' =  100 *n/sum(n)) 
 
 # Arrange
-df1 %>% 
-  select(Fruit, Price) %>%
-  arrange(Price)
+starwars_sort <- starwars %>% 
+  select(name, height) %>%
+  arrange(height)
 
 # Arrange in descending order
-df1 %>% 
-  select(Fruit, Price) %>%
-  arrange(desc(Price))
+starwars_sort <- starwars %>% 
+  select(name, height) %>%
+  arrange(desc(height))
 
 # Calculated Fields- mutate is used to add a column. 
-df1
 
-df1 %>%
+starwars <- starwars %>%
   mutate('Total' = rowSums(across(where(is.numeric))))
 
 # Rename columns/variables
-df1 %>%
-  rename(Colour = Color)
+starwars <- starwars %>%
+  rename(hair_colour = hair_color,
+         skin_colour = skin_color,
+         eye_colour = eye_color)
 
-# Filter
-df1 %>%
-  filter(Fruit == "Apple")
+# Filter to only those above a certain height
+starwars_tall <- starwars %>%
+  filter(height >= 200)
 
 # lets also create a variable for use later in our output below
 movie_name <- "Star Wars"
 
 # we can write that file out to csv from R 
-write.csv(df1, file="df2.csv", row.names = FALSE)
+write.csv(starwars, file="starwars_edited.csv", row.names = FALSE)
 # we can also take the results of our code and create an html document from it
 # don't worry about how this file works for now, that is for a later course
 render(input = 'create-output-html-doc.Rmd')
@@ -247,6 +263,4 @@ render(input = 'create-output-html-doc.Rmd')
 # keyboard shortcuts
 # assignment - Alt + -
 # Pipe - Ctrl + Shift + M
-
-# to finish this off we should be able to pull together all that we have created 
-# into one file (xlsx/csv) or RMD (doesn't need to be explained, just used)
+# Comment/Uncomment block - Ctrl + Shift + C
