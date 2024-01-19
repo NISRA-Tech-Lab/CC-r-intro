@@ -110,6 +110,10 @@ my_fn(19)
 # to allow users to work in a tidy manner
 # dplyr is the main data manipulation package - find out more here: https://www.tidyverse.org/
 install.packages("dplyr")
+# these are some other packages that we will need later
+install.packages("plotly")
+install.packages("ggplot2")
+install.packages("rmarkdown")
 
 # To use an already installed R package in an R project we call it with library()
 library(dplyr)
@@ -157,10 +161,6 @@ new_character_details_piped <- character_details %>%
 
 # Charts
 # Graphs can be quickly created from data frames using the plotly or ggplot2 libraries
-install.packages("plotly")
-install.packages("ggplot2")
-install.packages("rmarkdown")
-
 library(plotly)
 library(ggplot2)
 library(rmarkdown)
