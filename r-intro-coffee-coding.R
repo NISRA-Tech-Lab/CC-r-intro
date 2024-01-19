@@ -21,7 +21,7 @@
 
 # We can also store values in the environment
 # Replace Brian with your name below and run the line to see what happens
-my_name <- "Brian"
+my_name <- "Kyle"
 
 # Instead of returning your name in the console it has been stored as a value
 # in the enviroment. You can see a list of everything that has been stored in
@@ -71,14 +71,16 @@ my_name == "Brian"
 # be careful not to confuse with a single equals which is the same as using <- 
 my_name = "Brian"
 
-# We can also use other operators for logical statements, particularly when it comes to numeric values
+# We can also use other operators for logical statements, particularly when
+# it comes to numeric values
 x == 8
 x < 7
 x >= 3
 x != 4
 
 # We can create a for loop to repeat a process
-# Here we will ask R to print the statement "My name is ___" for every value in the column names
+# Here we will ask R to print the statement "My name is ___" for every value in 
+# the column names
 # paste() is the R command to combine two strings of text
 for (name in names) {
   print(paste("My name is", name))
@@ -99,9 +101,10 @@ my_fn(19)
 # to perform repetitive operations
 
 # Packages
-# Since R is ran by an open source community it is always expanding and improving and there are
-# many different packages that need installed to increase its functionality on top of BASE R
-# 
+# Since R is ran by an open source community it is always expanding and improving and 
+# there are many different packages that need installed to increase its functionality
+# on top of BASE R
+
 # To install a new package we run the command install.packages()
 # This package is part of the tidyverse, a set of packages created by RStudio
 # to allow users to work in a tidy manner
@@ -111,40 +114,44 @@ install.packages("dplyr")
 # To use an already installed R package in an R project we call it with library()
 library(dplyr)
 
-# One of the functions of dplyr is that it allows us to chain commands using the pipe %>% operator
-# dplyr also adds many functions that can be used to transform data. We will use two of those below
+# One of the functions of dplyr is that it allows us to chain commands using the 
+# pipe %>% operator
+# dplyr also adds many functions that can be used to transform data. We will use three
+# of those below:
+
 # mutate: add a new column
 # select: reorder, and select columns
 # arrange: sort data on a particular column
 
 # Say we had a data frame comprised of three vectors
-details <- data.frame(Age = c(101, 160, 97),
-                      first_name = c("Obi-Wan", "Luke", "Darth"),
-                      surname = c("Kenobi", "Skywalker", "Vader"))
+character_details <- data.frame(Age = c(101, 160, 97, 45),
+                      first_name = c("Obi-Wan", "Luke", "Darth", "Han"),
+                      surname = c("Kenobi", "Skywalker", "Vader", "Solo"))
 
-# And our task was to combine (using paste()) the first and surnames into a single column, remove
-# those columns and sort by IntNo. We could do it individual steps:
+# And our task was to combine (using paste()) the first and surnames into a single column,
+# remove those columns and sort by IntNo. We could do it individual steps:
 
 # Step 1 create the new column
-new_details <- mutate(.data = details,
+new_character_details <- mutate(.data = character_details,
                       full_name = paste(first_name, surname))
 
 # Step 2 select only the columns we want
-new_details <- select(.data = new_details,
+new_character_details <- select(.data = new_character_details,
                       Age, full_name)
 
-# Step 3 sort by IntNo
-new_details <- arrange(.data = new_details,
+# Step 3 sort by Age
+new_character_details <- arrange(.data = new_character_details,
                        Age)
 
 # Or if we utilise the pipe %>% operator we can chain these three commands together
 
-new_details_piped <- details %>%
+new_character_details_piped <- character_details %>%
   mutate(full_name = paste(first_name, surname)) %>%
   select(Age, full_name) %>%
   arrange(Age)
 
-# Using the pipe operator means not having to declare which data frame we are using at each step
+# Using the pipe operator means not having to declare which data frame 
+# we are using at each step
 # The result of each step in the piped commands is passed to the next step
 # Note how the resultant data frames are identical
 
@@ -158,26 +165,23 @@ library(plotly)
 library(ggplot2)
 library(rmarkdown)
 
-plot_ly(new_details_piped,
+print(plotly_plot <- plot_ly(new_character_details_piped,
         x = ~full_name,
         y = ~Age,
-        type = "bar")
+        type = "bar"))
 
-# The graph will be shown in the viewer tab in the bottom right of RStudio. We can use this
-# later in an output.
+print(ggplot_plot <- ggplot(new_character_details_piped, aes(x = full_name, y = Age, fill = factor(Age))) +
+  geom_col() +
+  theme_minimal() +
+  theme(legend.position = "none"))
+
+# The graphs will be shown in the viewer/plot tab in the bottom right of RStudio. 
+# We can use these later in an output.
 
 # data import
 # Most times we won't be defining our data in the code, we will be importing
 # from a csv or other static file
 starwars <- read.csv("starwars.csv")
-
-
-
-
-# change the below code to use the starwars data in readiness for use in the Rmd
-
-
-
 
 # we can then perform various data manipulations with it using R
 
