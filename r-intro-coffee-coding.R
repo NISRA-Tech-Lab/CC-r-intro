@@ -1,9 +1,13 @@
-# Intro to R syntax
+# Intro to R and RStudio
+
 # This section of the screen is script pane, we use this to run stored code.
 # These can be saved and used in other places.
 # The pane below is the console. Unlike scripts, it is temporary and is where R
 # is waiting for you to tell it what to do. Results will be shown in the console.
-# 
+
+# This script is contained within a Project, denoted by the .Rproj file in the folder
+# Projects are useful for containing all of your code/input data/functions in one place
+
 # Comments in R are preceded with a # 
 # 
 # Try typing each line of code below into the console and see what it returns
@@ -34,16 +38,42 @@ my_name <- "Kyle"
 x <- 6
 x + 7
 
-# TRUE or FALSE values can be stored without quotes
+# TRUE or FALSE values can be stored without quotes (can also be expressed as T/F)
 y <- TRUE
 
-# Items of the same type can be placed in a vector using c()
+# Some data structures in R
+
+# Vectors
+# Contains items of the same type - created using c()
 # A string vector
 names <- c("Brenda", "Joe", "Mike")
 # a numeric vector
 values <- c(1, 3, 5)
 
-# Vectors can be combined into data frames - a df is essentially just a matrix of vectors
+# Lists
+# Like vectors but can contain multiple different types of data
+list_example <- list(1, "a", TRUE, 100L)
+# lists can even contain other lists inside them
+list1_to_nest <- list("x", T, F, 96)
+list2_to_nest <- list(T, T, F, NULL)
+nested_list <- list(list1_to_nest,list2_to_nest)
+# can access elements of lists with [[]]
+# 4th element of first element of nested list
+nested_list[[1]][[4]]
+
+# Factors
+# Factors are used to represent categorical data. 
+# They can be ordered or unordered and contain levels
+sex_factor <- factor(c("male", "female", "female", "male"))
+# R will assign 1 to the level "female" and 2 to the level "male" 
+# (because f comes before m, even though the first element in this vector is "male")
+# You can check this by using the function levels(), 
+# and check the number of levels using nlevels():
+levels(sex_factor)
+nlevels(sex_factor)
+
+# Vectors can be combined into data frames - a df is essentially just a combination
+# of vectors
 # After running this line double click on df in the environment to view the data
 df <- data.frame(names, values)
 
@@ -114,6 +144,7 @@ install.packages("dplyr")
 install.packages("plotly")
 install.packages("ggplot2")
 install.packages("rmarkdown")
+install.packages("kableExtra")
 
 # To use an already installed R package in an R project we call it with library()
 library(dplyr)
@@ -164,16 +195,19 @@ new_character_details_piped <- character_details %>%
 library(plotly)
 library(ggplot2)
 library(rmarkdown)
+library(kableExtra)
 
 print(plotly_plot <- plot_ly(new_character_details_piped,
         x = ~full_name,
         y = ~Age,
         type = "bar"))
+# view in Viewer tab
 
 print(ggplot_plot <- ggplot(new_character_details_piped, aes(x = full_name, y = Age, fill = factor(Age))) +
   geom_col() +
   theme_minimal() +
   theme(legend.position = "none"))
+# view in Plots tab
 
 # The graphs will be shown in the viewer/plot tab in the bottom right of RStudio. 
 # We can use these later in an output.
@@ -250,6 +284,19 @@ starwars <- starwars %>%
 # Filter to only those above a certain height
 starwars_tall <- starwars %>%
   filter(height >= 200)
+
+# using the code we learned earlier we can create a plot to summarise some
+# of the information in the edited starwars dataframe
+
+# first we need to filter for the top 5 species by count
+# %in% is used to check if the species matches any of a list of characters
+starwars <- starwars %>% 
+filter(species %in% c("Human","Droid","Gungan","Wookie","Zabrak"))
+
+print(ggplot_height_species <- ggplot(starwars, aes(x = species, y = height, colour = species)) +
+        geom_point(size = 2.5)) +
+        theme_minimal() +
+        theme(legend.position = "none")
 
 # lets also create a variable for use later in our output below
 movie_name <- "Star Wars"

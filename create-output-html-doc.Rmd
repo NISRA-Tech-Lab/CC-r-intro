@@ -8,12 +8,37 @@ date: "`r Sys.Date()`"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Names of Staff
+## Names of `r movie_name` characters
 
-Below is a chart displaying the age of characters in `r movie_name`.
+Below are charts displaying the age of characters in `r movie_name` using Plotly
 
-```{r staff, echo=FALSE}
+```{r chars_plotly, echo=FALSE}
 
-# staff_plot
+plotly_plot
+
+```
+
+and ggplot
+
+```{r chars_ggplot, echo=FALSE}
+
+ggplot_plot
+
+```
+
+We edited the full dataset of characters using dplyr. We removed the columns we didn't want, filtered for only masculine characters, created a new column with mutate, called "Total" and renamed the variable names that used American spelling.
+The final edited dataset is shown below:
+
+```{r starwars_edited, echo=FALSE}
+
+kbl(starwars)
+
+```
+
+Using this dataframe we can create a scatter plot that shows the heights of the top 5 species:
+
+```{r starwars_species_heights, echo=FALSE}
+
+ggplot_height_species
 
 ```
