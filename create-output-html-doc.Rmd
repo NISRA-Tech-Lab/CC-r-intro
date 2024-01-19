@@ -1,0 +1,19 @@
+---
+title: "NISRA Coffee and Coding Session 1"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Names of Staff
+
+Below is a chart displaying the age of characters in `r movie_name`.
+
+```{r staff, echo=FALSE}
+
+# staff_plot
+
+```
