@@ -31,7 +31,8 @@ The final edited dataset is shown below:
 
 ```{r starwars_edited, echo=FALSE}
 
-kbl(starwars)
+kbl(starwars, align = "c") %>% 
+  kable_styling()
 
 ```
 

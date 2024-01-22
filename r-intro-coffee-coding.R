@@ -1,5 +1,9 @@
 # Intro to R and RStudio
 
+# NOTE - you should have run "package_installs.R" before starting this
+# If you need to do this now, uncomment the line of code below and run
+# source("package_installs.R")
+
 # This section of the screen is script pane, we use this to run stored code.
 # These can be saved and used in other places.
 # The pane below is the console. Unlike scripts, it is temporary and is where R
@@ -135,16 +139,9 @@ my_fn(19)
 # there are many different packages that need installed to increase its functionality
 # on top of BASE R
 
-# To install a new package we run the command install.packages()
-# This package is part of the tidyverse, a set of packages created by RStudio
-# to allow users to work in a tidy manner
-# dplyr is the main data manipulation package - find out more here: https://www.tidyverse.org/
-install.packages("dplyr")
-# these are some other packages that we will need later
-install.packages("plotly")
-install.packages("ggplot2")
-install.packages("rmarkdown")
-install.packages("kableExtra")
+# we have already run the following line of code to install the packages we need
+# if you need to re-install, uncomment this code and run again
+# source("package_installs.R")
 
 # To use an already installed R package in an R project we call it with library()
 library(dplyr)
