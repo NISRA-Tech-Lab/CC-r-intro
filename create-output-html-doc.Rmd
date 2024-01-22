@@ -1,24 +1,29 @@
 ---
 title: "NISRA Coffee and Coding Session 1"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 ```
 
-## Names of `r movie_name` characters
+# Names of `r movie_name` characters
 
-Below are charts displaying the age of characters in `r movie_name` using Plotly
+Below are charts displaying the age of characters in `r movie_name` using two charting packages:
 
-```{r chars_plotly, echo=FALSE}
+### Ages of a selection of `r movie_name` characters made in plotly
+
+```{r chars_plotly}
 
 plotly_plot
 
 ```
 
-and ggplot
+### Ages of a selection of `r movie_name` characters made in plotly
 
 ```{r chars_ggplot, echo=FALSE}
 
@@ -29,6 +34,8 @@ ggplot_plot
 We edited the full dataset of characters using dplyr. We removed the columns we didn't want, filtered for only masculine characters, created a new column with mutate, called "Total" and renamed the variable names that used American spelling.
 The final edited dataset is shown below:
 
+### Filtered `r movie_name` characters dataset
+
 ```{r starwars_edited, echo=FALSE}
 
 kbl(starwars, align = "c") %>% 
@@ -37,6 +44,8 @@ kbl(starwars, align = "c") %>%
 ```
 
 Using this dataframe we can create a scatter plot that shows the heights of the top 5 species:
+
+### Height of top 5 species by count of `r movie_name` characters from our dataset 
 
 ```{r starwars_species_heights, echo=FALSE}
 
