@@ -28,7 +28,7 @@
 # send the highlighted code to the console
 
 # We can also store values in the environment
-# Replace Brian with your name below and run the line to see what happens
+# Replace Kyle with your name below and run the line to see what happens
 my_name <- "Kyle"
 
 # Instead of returning your name in the console it has been stored as a value
@@ -76,6 +76,7 @@ sex_factor <- factor(c("male", "female", "female", "male"))
 levels(sex_factor)
 nlevels(sex_factor)
 
+# Dataframes
 # Vectors can be combined into data frames - a df is essentially just a combination
 # of vectors
 # After running this line double click on df in the environment to view the data
@@ -91,14 +92,12 @@ df$value2 <- df$values*2
 
 # if/else logic can be used to create certain outputs
 # The code below will check the content of the value my_name and output one of two responses
-if (my_name == "Brian") {
+if (my_name == "Kyle") {
   "it's me"
 } else {
   "not you"
 }
 # note that because a <- was not used, the code was just run and printed to console
-# what would have happened and what would we get if we had preceded the code
-# with test_fun <- ? 
 
 # Note that we use a double equals sign == in logical commands
 my_name == "Brian"
@@ -248,8 +247,7 @@ starwars %>%
 # group_by and tally
 starwars_tally <- starwars %>%
   group_by(species) %>%
-  tally(sort = TRUE) %>%
-  select(species, n)
+  tally(sort = TRUE)
 
 # Add percentage column
 starwars_tally <- starwars %>%
@@ -270,7 +268,7 @@ starwars_sort <- starwars %>%
 # Calculated Fields- mutate is used to add a column. 
 
 starwars <- starwars %>%
-  mutate('Total' = rowSums(across(where(is.numeric))))
+  mutate(Total = rowSums(across(where(is.numeric))))
 
 # Rename columns/variables
 starwars <- starwars %>%
