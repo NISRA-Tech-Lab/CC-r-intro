@@ -145,10 +145,10 @@ my_fn(19)
 # To use an already installed R package in an R project we call it with library()
 library(dplyr)
 
-# One of the functions of dplyr is that it allows us to chain commands using the 
-# pipe %>% operator
-# dplyr also adds many functions that can be used to transform data. We will use three
-# of those below:
+# dplyr adds many functions that can be used to transform data. We will use three
+# of those below.
+# We are also going to use the pipe %>% operator as it allows us to
+# chain commands together and create a pipe
 
 # mutate: add a new column
 # select: reorder, and select columns
