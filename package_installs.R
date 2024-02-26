@@ -6,5 +6,3 @@ install.packages("dplyr", type = "binary")
 # these are some other packages that we will need later
 install.packages("plotly", type = "binary")
 install.packages("ggplot2", type = "binary")
-install.packages("rmarkdown", type = "binary")
-install.packages("kableExtra", type = "binary")

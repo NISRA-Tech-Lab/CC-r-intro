@@ -1,19 +1,21 @@
 # Intro to R and RStudio
 
 # NOTE - you should have run "package_installs.R" before starting this
-# If you need to do this now, uncomment the line of code below and run
-# source("package_installs.R")
 
+
+# Console and Scripting ----
 # This section of the screen is script pane, we use this to run stored code.
 # These can be saved and used in other places.
-# The pane below is the console. Unlike scripts, it is temporary and is where R
-# is waiting for you to tell it what to do. Results will be shown in the console.
+# The pane below is the console. Unlike scripts, it is temporary and is a space ready for
+# you to enter a command and query R
+# Results from console or script are both shown in the console.
 
 # This script is contained within a Project, denoted by the .Rproj file in the folder
 # Projects are useful for containing all of your code/input data/functions in one place
 
-# Comments in R are preceded with a # 
-# 
+# Comments in R are preceded with a # - Ctrl + Shift + C to comment/uncomment lines
+
+
 # Try typing each line of code below into the console and see what it returns
 # Numbers are entered by typing them without quotes
 5
@@ -45,7 +47,8 @@ x + 7
 # TRUE or FALSE values can be stored without quotes (can also be expressed as T/F)
 y <- TRUE
 
-# Some data structures in R
+
+# Data structures in R ----
 
 # Vectors
 # Contains items of the same type - created using c()
@@ -57,13 +60,6 @@ values <- c(1, 3, 5)
 # Lists
 # Like vectors but can contain multiple different types of data
 list_example <- list(1, "a", TRUE, 100L)
-# lists can even contain other lists inside them
-list1_to_nest <- list("x", T, F, 96)
-list2_to_nest <- list(T, T, F, NULL)
-nested_list <- list(list1_to_nest,list2_to_nest)
-# can access elements of lists with [[]]
-# 4th element of first element of nested list
-nested_list[[1]][[4]]
 
 # Factors
 # Factors are used to represent categorical data. 
@@ -90,7 +86,8 @@ df$names
 # manipulation methods later
 df$value2 <- df$values*2
 
-# if/else logic can be used to create certain outputs
+# If/Else and Logic in R ----
+# can be used to create certain outputs
 # The code below will check the content of the value my_name and output one of two responses
 if (my_name == "Kyle") {
   "it's me"
@@ -111,6 +108,7 @@ x < 7
 x >= 3
 x != 4
 
+# Loops ----
 # We can create a for loop to repeat a process
 # Here we will ask R to print the statement "My name is ___" for every value in 
 # the column names
@@ -119,6 +117,7 @@ for (name in names) {
   print(paste("My name is", name))
 }
 
+# Functions ----
 # We can write custom functions in R that will perform a series of operations when
 # called by their name
 # This function will add six to the number x, half it and output a sentence
@@ -133,15 +132,16 @@ my_fn(19)
 # Functions can be as short or as long as you want and are handy when having
 # to perform repetitive operations
 
-# Packages
-# Since R is ran by an open source community it is always expanding and improving and 
-# there are many different packages that need installed to increase its functionality
+# Packages ----
+# Since R is run by an open source community it is always expanding and improving and 
+# there are many different packages that can be installed to increase its functionality
 # on top of BASE R
 
 # we have already run the following line of code to install the packages we need
 # if you need to re-install, uncomment this code and run again
 # source("package_installs.R")
 
+# dplyr and pipes ----
 # To use an already installed R package in an R project we call it with library()
 library(dplyr)
 
@@ -160,7 +160,9 @@ character_details <- data.frame(Age = c(101, 160, 97, 45),
                       surname = c("Kenobi", "Skywalker", "Vader", "Solo"))
 
 # And our task was to combine (using paste()) the first and surnames into a single column,
-# remove those columns and sort by IntNo. We could do it individual steps:
+# remove those columns, sort by IntNo. and remove any ages over 150
+
+# We could do it individual steps:
 
 # Step 1 create the new column
 new_character_details <- mutate(.data = character_details,
@@ -174,24 +176,28 @@ new_character_details <- select(.data = new_character_details,
 new_character_details <- arrange(.data = new_character_details,
                        Age)
 
-# Or if we utilise the pipe %>% operator we can chain these three commands together
+# Step 4 filter to only include ages under 150
+new_character_details <- filter(.data = new_character_details,
+                                 Age < 150)
+
+
+# Or, using the pipe %>% operator we can chain these four commands together
 
 new_character_details_piped <- character_details %>%
   mutate(full_name = paste(first_name, surname)) %>%
   select(Age, full_name) %>%
-  arrange(Age)
+  arrange(Age) %>% 
+  filter(Age < 150)
 
 # Using the pipe operator means not having to declare which data frame 
 # we are using at each step
 # The result of each step in the piped commands is passed to the next step
 # Note how the resultant data frames are identical
 
-# Charts
+# Charts ----
 # Graphs can be quickly created from data frames using the plotly or ggplot2 libraries
 library(plotly)
 library(ggplot2)
-library(rmarkdown)
-library(kableExtra)
 
 print(plotly_plot <- plot_ly(new_character_details_piped,
         x = ~full_name,
@@ -205,102 +211,42 @@ print(ggplot_plot <- ggplot(new_character_details_piped, aes(x = full_name, y = 
   theme(legend.position = "none"))
 # view in Plots tab
 
-# The graphs will be shown in the viewer/plot tab in the bottom right of RStudio. 
-# We can use these later in an output.
+# The graphs will be shown in the viewer/plot tab in the bottom right of RStudio.
 
-# data import
+
+# data import ---
 # Most times we won't be defining our data in the code, we will be importing
 # from a csv or other static file
 starwars <- read.csv("starwars.csv")
 
-# we can then perform various data manipulations with it using R
+# YOUR TURN ----
+# we want process the starwars dataframe applying the below conditions: 
 
-# Select and Filter
+## contains every variable except birth_year, sex and homeworld
 
-# there are different ways to achieve your selection
-# name everything
-starwars_subset <- starwars %>%
-  select(name, height, mass, hair_color, skin_color, eye_color, gender, species) %>%
-  filter(gender == "masculine")
-# name with ranges
-starwars_subset <- starwars %>%
-  select(name:eye_color, gender, species) %>%
-  filter(gender == "masculine")
-# use logic negation
-starwars <- starwars %>%
-  select(!c(birth_year,sex,homeworld)) %>%
-  filter(gender == "masculine")
+## is filtered to only include gender of "masculine" and
+## is in the top 5 species by count
 
-# don't need starwars_subset anymore so can remove from environment
-rm(starwars_subset)
+## has the three variables using the american spelling of colour renamed
 
-
-# Group by
-# Example
-starwars %>%
-  group_by(species)
-
-# Grouping doesn't change how the data looks (apart from listing how it's grouped). 
-# The grouping is shown when a command like 'tally' is run"
-
-
-# group_by and tally
-starwars_tally <- starwars %>%
-  group_by(species) %>%
-  tally(sort = TRUE)
-
-# Add percentage column
-starwars_tally <- starwars %>%
-  group_by(species) %>%
-  tally(sort = TRUE) %>%
-  mutate('Species %' =  100 *n/sum(n)) 
-
-# Arrange
-starwars_sort <- starwars %>% 
-  select(name, height) %>%
-  arrange(height)
-
-# Arrange in descending order
-starwars_sort <- starwars %>% 
-  select(name, height) %>%
-  arrange(desc(height))
-
-# Calculated Fields- mutate is used to add a column. 
-
-starwars <- starwars %>%
-  mutate(Total = rowSums(across(where(is.numeric))))
-
-# Rename columns/variables
-starwars <- starwars %>%
-  rename(hair_colour = hair_color,
-         skin_colour = skin_color,
-         eye_colour = eye_color)
-
-# Filter to only those above a certain height
-starwars_tall <- starwars %>%
-  filter(height >= 200)
+starwars <- xxxx %>%
+  select(xxxx) %>%
+  filter(xxxx == "xxxx" &
+         species %in% c("Human","Droid","Gungan","Wookiee","Zabrak")) %>% 
+  rename(xxxx = hair_color,
+         skin_colour = xxxx,
+         xxxx = eye_color)
 
 # using the code we learned earlier we can create a plot to summarise some
 # of the information in the edited starwars dataframe
-
-# first we need to filter for the top 5 species by count
-# %in% is used to check if the species matches any of a list of characters
-starwars <- starwars %>% 
-filter(species %in% c("Human","Droid","Gungan","Wookie","Zabrak"))
 
 print(ggplot_height_species <- ggplot(starwars, aes(x = species, y = height, colour = species)) +
         geom_point(size = 2.5)) +
         theme_minimal() +
         theme(legend.position = "none")
 
-# lets also create a variable for use later in our output below
-movie_name <- "Star Wars"
-
 # we can write that file out to csv from R 
 write.csv(starwars, file="starwars_edited.csv", row.names = FALSE)
-# we can also take the results of our code and create an html document from it
-# don't worry about how this file works for now, that is for a later course
-render(input = 'create-output-html-doc.Rmd')
 
 # keyboard shortcuts
 # assignment - Alt + -
