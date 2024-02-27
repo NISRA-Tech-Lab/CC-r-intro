@@ -94,7 +94,6 @@ if (my_name == "Kyle") {
 } else {
   "not you"
 }
-# note that because a <- was not used, the code was just run and printed to console
 
 # Note that we use a double equals sign == in logical commands
 my_name == "Brian"
@@ -160,7 +159,7 @@ character_details <- data.frame(Age = c(101, 160, 97, 45),
                       surname = c("Kenobi", "Skywalker", "Vader", "Solo"))
 
 # And our task was to combine (using paste()) the first and surnames into a single column,
-# remove those columns, sort by IntNo. and remove any ages over 150
+# remove those columns, sort by Age and remove any ages over 150
 
 # We could do it individual steps:
 
