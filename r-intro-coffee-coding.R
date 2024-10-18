@@ -1,6 +1,6 @@
 # Intro to R and RStudio
 
-# NOTE - you should have run "package_installs.R" before starting this
+# NOTE - you should have run renv setup with renv::restore() before starting
 
 
 # Console and Scripting ----
@@ -195,13 +195,9 @@ new_character_details_piped <- character_details %>%
 
 # Charts ----
 # Graphs can be quickly created from data frames using the plotly or ggplot2 libraries
-library(plotly)
+# We are going to look a ggplot2 today for time sake - plotly is just interactive version
 library(ggplot2)
 
-print(plotly_plot <- plot_ly(new_character_details_piped,
-        x = ~full_name,
-        y = ~Age,
-        type = "bar"))
 # view in Viewer tab
 
 print(ggplot_plot <- ggplot(new_character_details_piped, aes(x = full_name, y = Age, fill = factor(Age))) +
