@@ -218,11 +218,15 @@ starwars <- read.csv("starwars.csv")
 # we want process the starwars dataframe applying the below conditions: 
 
 ## contains every variable except birth_year, sex and homeworld
+  # hint - you can specify a range of columns with first_column:last_column
+  # hint - you can negate a selection i.e. specify those NOT to be selected
+  # with !c(columns_to_drop)
 
 ## is filtered to only include gender of "masculine" and
-## is in the top 5 species by count
+## is in the top 5 species by count - this second part has been done for you
 
 ## has the three variables using the american spelling of colour renamed
+  # hint - to open the help for the rename function type ?rename into the console
 
 starwars <- xxxx %>%
   select(xxxx) %>%
