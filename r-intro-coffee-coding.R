@@ -198,8 +198,6 @@ new_character_details_piped <- character_details %>%
 # We are going to look a ggplot2 today for time sake - plotly is just interactive version
 library(ggplot2)
 
-# view in Viewer tab
-
 print(ggplot_plot <- ggplot(new_character_details_piped, aes(x = full_name, y = Age, fill = factor(Age))) +
   geom_col() +
   theme_minimal() +
