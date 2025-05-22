@@ -16,20 +16,27 @@
 # Comments in R are preceded with a # - Ctrl + Shift + C to comment/uncomment lines
 
 
-# Try typing each line of code below into the console and see what it returns
-# Numbers are entered by typing them without quotes
+# Data Types ----
+# Code can be sent to the console for evaluation either line by line with
+# Ctrl + Enter or by selecting a chunk and using Ctrl + Enter
+# A Run button above does the same thing
+
+# Numbers are entered without quotes
 5
-# Expressions can be evaluated in R like below
-5 + 5
-# Text should always be entered in quotes
+# Text should always be entered in quotes, single or double
 "Bumblebee"
+
+# Anything unassigned that is sent to the Console only exists there, it is
+# not stored
+
+# Expressions can be evaluated in the console like below
+5 + 5
+paste0("Bumble","Bee")
+
 # Press the up/down arrows on the keyboard to cycle through previous commands
+# when in the Console
 
-# You can also run code from the script pane
-# Highlight each (or all) of the lines of code above and press Ctrl+Enter to
-# send the highlighted code to the console
-
-# We can also store values in the environment
+# We can also store persistent named values in the environment
 # Replace Kyle with your name below and run the line to see what happens
 my_name <- "Kyle"
 
@@ -80,6 +87,9 @@ df <- data.frame(names, values)
 
 # Individual columns from data frames can be called using a $ separator
 df$names
+
+# We can return the number of rows in a dataframe with:
+print(paste0("There are ", nrow(df), " rows in the dataframe named df"))
 
 # A new column can also be created in the data frame using the $ separator
 # all of this so far is what we call BASE R code - we will cover other data
@@ -143,6 +153,7 @@ my_fn(19)
 # dplyr and pipes ----
 # To use an already installed R package in an R project we call it with library()
 library(dplyr)
+library(tidyr)
 
 # dplyr adds many functions that can be used to transform data. We will use three
 # of those below.
@@ -192,6 +203,22 @@ new_character_details_piped <- character_details %>%
 # we are using at each step
 # The result of each step in the piped commands is passed to the next step
 # Note how the resultant data frames are identical
+
+# Pivot ----
+# a dataframe can be pivoted wider or longer with pivot_wider() and pivot_longer()
+character_details_long <- character_details %>% 
+  select(-Age) %>% 
+  pivot_longer(cols = c(first_name, surname), 
+               names_to = "name type", 
+               values_to = "name value")
+# Join ----
+# if we wanted to join another variable (height) onto the end of our original dataset we can use dplyr join statements
+extra_info_for_merge <- data.frame(first_name = c("Obi-Wan", "Luke", "Darth", "Han"),
+                                   surname = c("Kenobi", "Skywalker", "Vader", "Solo"),
+                                   height_m = c(1.82, 1.75, 2.30, 1.86))
+
+character_details_merged <- character_details %>% 
+  left_join(extra_info_for_merge, by = c("first_name", "surname"))
 
 # Charts ----
 # Graphs can be quickly created from data frames using the plotly or ggplot2 libraries
