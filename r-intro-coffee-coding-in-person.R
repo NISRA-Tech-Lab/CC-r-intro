@@ -66,6 +66,7 @@ values <- c(1, 3, 5)
 
 # Lists
 # Like vectors but can contain multiple different types of data
+# can be nested to create data hierarcy
 list_example <- list(1, "a", TRUE, 100L)
 
 # Factors
@@ -147,8 +148,6 @@ my_fn(19)
 # on top of BASE R
 
 # we have already run the following line of code to install the packages we need
-# if you need to re-install, uncomment this code and run again
-# source("package_installs.R")
 
 # dplyr and pipes ----
 # To use an already installed R package in an R project we call it with library()
@@ -165,9 +164,9 @@ library(tidyr)
 # arrange: sort data on a particular column
 
 # Say we had a data frame comprised of three vectors
-character_details <- data.frame(Age = c(101, 160, 97, 45),
-                      first_name = c("Obi-Wan", "Luke", "Darth", "Han"),
-                      surname = c("Kenobi", "Skywalker", "Vader", "Solo"))
+character_details <- data.frame(Age = c(101, 160, 97, 45, 134, 26, 163, 13, 16),
+                      first_name = c("Obi-Wan", "Luke", "Darth", "Han", "Jar Jar", "R2", "Roos", "IG", "R4"),
+                      surname = c("Kenobi", "Skywalker", "Vader", "Solo", "Binks", "D2", "Tarpals", "88", "P17"))
 
 # And our task was to combine (using paste()) the first and surnames into a single column,
 # remove those columns, sort by Age and remove any ages over 150
@@ -207,22 +206,37 @@ new_character_details_piped <- character_details %>%
 # Pivot ----
 # a dataframe can be pivoted wider or longer with pivot_wider() and pivot_longer()
 character_details_long <- character_details %>% 
-  select(-Age) %>% 
+  select(-Age) %>%
   pivot_longer(cols = c(first_name, surname), 
                names_to = "name type", 
                values_to = "name value")
 # Join ----
 # if we wanted to join another variable (height) onto the end of our original dataset we can use dplyr join statements
-extra_info_for_merge <- data.frame(first_name = c("Obi-Wan", "Luke", "Darth", "Han"),
-                                   surname = c("Kenobi", "Skywalker", "Vader", "Solo"),
-                                   height_m = c(1.82, 1.75, 2.30, 1.86))
+extra_info_for_merge <- data.frame(first_name = c("Obi-Wan", "Luke", "Darth", "Han", "Jar Jar", "R2", "Roos", "IG", "R4"),
+                                   surname = c("Kenobi", "Skywalker", "Vader", "Solo", "Binks", "D2", "Tarpals", "88", "P17"),
+                                   height_m = c(1.82, 1.75, 2.30, 1.86, 2.40, 1.20, 2.12, 0.78, 1.74))
 
 character_details_merged <- character_details %>% 
   left_join(extra_info_for_merge, by = c("first_name", "surname"))
 
+# Grouping and summarising ----
+# if we want to sum and condense a dataset by a given variable we can do
+# that as follows - with a group_by() on the variable we want to group with
+# and a summarise to tell R to sum or calculate by that grouping
+
+# to do this on character_details_merged we need to add some extra variables first
+
+character_details_grouped <- cbind(character_details_merged, 
+                                   species = c("Human", "Human", "Human", "Human", "Gungan", "Droid", 
+                                               "Gungan", "Droid", "Droid"))
+
+character_details_grouped <- character_details_grouped %>% 
+  group_by(species) %>% 
+  summarise(avg_age = mean(Age), max_age = max(Age), min_age = min(Age))
+
 # Charts ----
 # Graphs can be quickly created from data frames using the plotly or ggplot2 libraries
-# We are going to look a ggplot2 today for time sake - plotly is just interactive version
+# We are going to look a ggplot2 today - plotly is just interactive version
 library(ggplot2)
 
 print(ggplot_plot <- ggplot(new_character_details_piped, aes(x = full_name, y = Age, fill = factor(Age))) +
@@ -272,7 +286,7 @@ print(ggplot_height_species <- ggplot(starwars, aes(x = species, y = height, col
 # we can write that file out to csv from R 
 write.csv(starwars, file="starwars_edited.csv", row.names = FALSE)
 
-# keyboard shortcuts
+# Keyboard shortcuts ----
 # assignment - Alt + -
 # Pipe - Ctrl + Shift + M
 # Comment/Uncomment block - Ctrl + Shift + C
