@@ -16,6 +16,6 @@
 
 - If the install flags up errors and stops:
   - You may not have access to the package repository needed to install packages within this project. Contact techlab@nisra.gov.uk for more info on this
-  - You should still be able to run the script below up to the packages section, even without completed installs, as the earlier parts use BASE R code only
+  - You should still be able to run the scripts below up to the packages section, even without completed installs, as the earlier parts use BASE R code only
 
-Open _"r-intro-coffee-coding.R"_ and run through code
+Open _"r-intro-coffee-coding.R"_ or _"r-intro-coffee-coding-in-person.R"_ and run through code
