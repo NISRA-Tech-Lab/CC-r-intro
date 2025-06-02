@@ -127,21 +127,6 @@ for (name in names) {
   print(paste("My name is", name))
 }
 
-# Functions ----
-# We can write custom functions in R that will perform a series of operations when
-# called by their name
-# This function will add six to the number x, half it and output a sentence
-my_fn <- function(x) {
-  res <- (x + 6) / 2
-  paste("The result of the function is", res)
-}
-
-my_fn(8)
-my_fn(19)
-
-# Functions can be as short or as long as you want and are handy when having
-# to perform repetitive operations
-
 # Packages ----
 # Since R is run by an open source community it is always expanding and improving and 
 # there are many different packages that can be installed to increase its functionality
@@ -203,6 +188,9 @@ new_character_details_piped <- character_details %>%
 # The result of each step in the piped commands is passed to the next step
 # Note how the resultant data frames are identical
 
+# if you need to break into a pipe partway through you can separate out the statements
+# or you can highlight up to the pipe on a selection of rows and run that
+
 # Pivot ----
 # a dataframe can be pivoted wider or longer with pivot_wider() and pivot_longer()
 character_details_long <- character_details %>% 
@@ -234,19 +222,6 @@ character_details_grouped <- character_details_grouped %>%
   group_by(species) %>% 
   summarise(avg_age = mean(Age), max_age = max(Age), min_age = min(Age))
 
-# Charts ----
-# Graphs can be quickly created from data frames using the plotly or ggplot2 libraries
-# We are going to look a ggplot2 today - plotly is just interactive version
-library(ggplot2)
-
-print(ggplot_plot <- ggplot(new_character_details_piped, aes(x = full_name, y = Age, fill = factor(Age))) +
-  geom_col() +
-  theme_minimal() +
-  theme(legend.position = "none"))
-# view in Plots tab
-
-# The graphs will be shown in the viewer/plot tab in the bottom right of RStudio.
-
 
 # data import ---
 # Most times we won't be defining our data in the code, we will be importing
@@ -256,27 +231,26 @@ starwars <- read.csv("starwars.csv")
 # YOUR TURN ----
 # we want process the starwars dataframe applying the below conditions: 
 
-## contains every variable except birth_year, sex and homeworld
-  # hint - you can specify a range of columns with first_column:last_column
-  # hint - you can negate a selection i.e. specify those NOT to be selected
-  # with !c(columns_to_drop)
-
-## is filtered to only include gender of "masculine" and
-## is in the top 5 species by count - this second part has been done for you
-
-## has the three variables using the american spelling of colour renamed
-  # hint - to open the help for the rename function type ?rename into the console
-
 starwars <- xxxx %>%
+  
+  ## select every variable except birth_year, sex and homeworld
+    # hint - you can specify a range of columns with first_column:last_column
+    # hint - you can negate a selection i.e. specify those NOT to be selected
+    # with !c(columns_to_drop)
   select(xxxx) %>%
+  
+  ## is filtered to only include gender of "masculine" and
+  ## is in the top 5 species by count - this second part has been done for you
   filter(xxxx == "xxxx" &
-         species %in% c("Human","Droid","Gungan","Wookiee","Zabrak")) %>% 
+         species %in% c("Human","Droid","Gungan","Wookiee","Zabrak")) %>%
+  
+  ## has the three variables using the american spelling of colour renamed
+    # hint - to open the help for the rename function type ?rename into the console
   rename(xxxx = hair_color,
          skin_colour = xxxx,
          xxxx = eye_color)
 
-# using the code we learned earlier we can create a plot to summarise some
-# of the information in the edited starwars dataframe
+# we can create a plot to summarise some of the information in the edited starwars dataframe
 
 print(ggplot_height_species <- ggplot(starwars, aes(x = species, y = height, colour = species)) +
         geom_point(size = 2.5)) +
